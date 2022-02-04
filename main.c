@@ -60,12 +60,15 @@ int main(void)
 
     __builtin_write_RPCON(0x0800); // lock PPS
     
+    //Enable and configure the ADC so it can sample the potentiometer.
+    ADC_SetConfiguration(ADC_CONFIGURATION_DEFAULT);
+    ADC_ChannelEnable(ADC_CHANNEL_POTENTIOMETER);
     
     while (1) {
-        holdingReg[0] = ADC_Read(ADC_CHANNEL_POTENTIOMETER);
 //        holdingReg[0] = 33;
         
         if (modbusMessage) {
+            holdingReg[0] = ADC_Read(ADC_CHANNEL_POTENTIOMETER);
             decodeIt();
         }
 
